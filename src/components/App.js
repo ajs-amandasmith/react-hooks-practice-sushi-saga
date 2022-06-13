@@ -7,6 +7,8 @@ const API = "http://localhost:3001/sushis";
 function App() {
   const [sushiLimit, setSushiLimit] = useState(4);
   const [sushiData, setSushiData] = useState([]);
+  const [plates, setPlates] = useState([]);
+  const [amount, setAmount] = useState(100);
   
   useEffect(() => {
     fetch(API)
@@ -24,10 +26,25 @@ function App() {
     setSushiLimit(newLimit);
   }
 
+  function showPlates(num) {
+    setPlates([...plates, num])
+  }
+
+  function changeAmount(newAmount) {
+    setAmount(newAmount);
+  }
+
   return (
     <div className="app">
-      <SushiContainer sushiData={sushiData} resetLimit={resetLimit} sushiLimit={sushiLimit} />
-      <Table />
+      <SushiContainer 
+        sushiData={sushiData} 
+        resetLimit={resetLimit} 
+        sushiLimit={sushiLimit} 
+        showPlates={showPlates} 
+        amount={amount}
+        changeAmount={changeAmount}
+      />
+      <Table plates={plates} amount={amount} />
     </div>
   );
 }
@@ -41,8 +58,6 @@ App
         |__MoreButton
   |__Table
 
-
-Clicking a sushi on a plate will eat the sushi, causing it to be removed from its plate and an empty plate to appear on the table.
 
 We need to make money! Whenever a sushi is eaten, customers should be automatically charged! Based on a budget decided by you, the developer, the amount of money remaining should go down by the cost of the sushi that was eaten. There is a spot to display this number in the Table component.
 
