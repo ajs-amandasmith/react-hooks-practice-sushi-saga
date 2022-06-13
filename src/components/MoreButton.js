@@ -1,7 +1,11 @@
 import React from "react";
 
-function MoreButton(props) {
-  return <button onClick={/* Fill me in! */ null}>More sushi!</button>;
+function MoreButton({ resetLimit, sushiLimit }) {
+  function handleClick() {
+    const newLimit = sushiLimit + 4;
+    resetLimit(newLimit);
+  }
+  return <button onClick={handleClick}>More sushi!</button>;
 }
 
 export default MoreButton;

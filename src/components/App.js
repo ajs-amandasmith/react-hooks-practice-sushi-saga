@@ -5,24 +5,28 @@ import Table from "./Table";
 const API = "http://localhost:3001/sushis";
 
 function App() {
-  const [sushiData, setSushiData] = useState([]);
   const [sushiLimit, setSushiLimit] = useState(4);
-
+  const [sushiData, setSushiData] = useState([]);
+  
   useEffect(() => {
     fetch(API)
       .then(r => r.json())
       .then(sushis => {
-        const limit = sushis.filter(sushi => sushi.id >= (sushiLimit - 4) && sushi.id <= sushiLimit)
+        let limit = sushis.filter(sushi => sushi.id >= (sushiLimit - 3) && sushi.id <= sushiLimit)
           .slice(0, 4)
         setSushiData(limit)
       })
   }, 
-    []
+    [sushiLimit]
   )
+
+  function resetLimit(newLimit) {
+    setSushiLimit(newLimit);
+  }
 
   return (
     <div className="app">
-      <SushiContainer sushiData={sushiData} />
+      <SushiContainer sushiData={sushiData} resetLimit={resetLimit} sushiLimit={sushiLimit} />
       <Table />
     </div>
   );
@@ -37,8 +41,6 @@ App
         |__MoreButton
   |__Table
 
-
-Clicking the "More Sushi!" button shows the next set of 4 sushi in the list. For this assignment, you don't have to be concerned about what happens when you reach the end of the sushi list.
 
 Clicking a sushi on a plate will eat the sushi, causing it to be removed from its plate and an empty plate to appear on the table.
 
